@@ -33,3 +33,9 @@ website/vendor
 
 # Keep windows files with windows line endings
 *.winfile eol=crlf
+
+# Sharing Fish
+terraform-provider-devops-bootcamp
+.plugin-cache/*
+.terraform.lock.hcl
+*.tf
