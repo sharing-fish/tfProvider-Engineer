@@ -41,3 +41,23 @@ func main() {
 		log.Fatal(err.Error())
 	}
 }
+
+/*
+
+func main() {
+	endpoint := "http://localhost:8080"
+	client, err := provider.NewClient(&endpoint)
+	if err != nil {
+		log.Fatalf("Error creating client: %v", err)
+	}
+
+	engineers, err := client.GetEngineers()
+	if err != nil {
+		log.Fatalf("Error fetching engineers: %v", err)
+	}
+
+	for _, engineer := range engineers {
+		fmt.Printf("Engineer: %s, ID: %s, Email: %s\n", engineer.Name, engineer.Id, engineer.Email)
+	}
+}
+*/

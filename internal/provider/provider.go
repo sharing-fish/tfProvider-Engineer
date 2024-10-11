@@ -5,7 +5,6 @@ package provider
 
 import (
 	"context"
-	"net/http"
 	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -78,7 +77,7 @@ func (p *DevOpsAPIProvider) Configure(ctx context.Context, req provider.Configur
 
 	if endpoint == "" {
 		resp.Diagnostics.AddAttributeError(
-			path.Root("host"),
+			path.Root("endpoint"),
 			"Missing DevOps API Endpoint",
 			"The provider cannot create the DevOps API client as there is a missing or empty value for the DevOps API endpoint. ",
 		)
@@ -91,7 +90,14 @@ func (p *DevOpsAPIProvider) Configure(ctx context.Context, req provider.Configur
 	ctx = tflog.SetField(ctx, "devops_api_endpoint", endpoint)
 	tflog.Debug(ctx, "Creating DevOps API client")
 
-	client := http.DefaultClient
+	client, err := NewClient(&endpoint)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to Create DevOps API Client",
+			"An unexpected error occurred when creating the DevOps API client: "+err.Error(),
+		)
+		return
+	}
 
 	resp.DataSourceData = client
 	resp.ResourceData = client
