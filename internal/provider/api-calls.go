@@ -34,8 +34,8 @@ func (c *Client) GetEngineers() ([]EngineerModel, error) {
 	return engineers, nil
 }
 
-func (c *Client) GetEngineerById(id string) ([]EngineerModel, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/engineers/Id/%s", c.Endpoint, id), nil)
+func (c *Client) GetEngineerById(id string) (*EngineerModel, error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/engineers/id/%s", c.Endpoint, id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -45,13 +45,13 @@ func (c *Client) GetEngineerById(id string) ([]EngineerModel, error) {
 		return nil, err
 	}
 
-	engineers := []EngineerModel{}
-	err = json.Unmarshal(body, &engineers)
+	engineer := EngineerModel{}
+	err = json.Unmarshal(body, &engineer)
 	if err != nil {
 		return nil, err
 	}
 
-	return engineers, nil
+	return &engineer, nil
 }
 
 func (c *Client) CreateEngineer(name, email string) (*EngineerModel, error) {

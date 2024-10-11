@@ -83,7 +83,7 @@ func (r *EngineerResource) Read(ctx context.Context, req resource.ReadRequest, r
 	}
 
 	// Fetch engineer from the API using GetEngineerById
-	engineers, err := r.client.GetEngineerById(data.Id.ValueString())
+	engineer, err := r.client.GetEngineerById(data.Id.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to fetch engineer",
@@ -92,15 +92,6 @@ func (r *EngineerResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
-	if len(engineers) == 0 {
-		resp.Diagnostics.AddError(
-			"Engineer not found",
-			"No engineer found with the given ID",
-		)
-		return
-	}
-
-	engineer := engineers[0]
 	data.Name = types.StringValue(engineer.Name)
 	data.Email = types.StringValue(engineer.Email)
 
