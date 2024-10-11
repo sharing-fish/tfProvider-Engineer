@@ -2,7 +2,7 @@ package provider
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -25,7 +25,7 @@ type EngineerModel struct {
 }
 
 type EngineerDataSource struct {
-	client *http.Client
+	client *Client
 }
 
 func (d *EngineerDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -64,18 +64,42 @@ func (d *EngineerDataSource) Read(ctx context.Context, req datasource.ReadReques
 		return
 	}
 
-	for _, engineer := range data.Engineer {
-		engineerState := EngineerModel{
-			Name:  engineer.Name,
-			Id:    engineer.Id,
-			Email: engineer.Email,
-		}
-		data.Engineer = append(data.Engineer, engineerState)
+	// Fetch engineers from the API
+	engineers, err := d.client.GetEngineers()
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to fetch engineers",
+			"An error occurred while fetching engineers: "+err.Error(),
+		)
+		return
 	}
+
+	data.Engineer = engineers
 
 	diags := resp.State.Set(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+}
+
+// Configure adds the provider configured client to the data source.
+func (d *EngineerDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+	// Add a nil check when handling ProviderData because Terraform
+	// sets that data after it calls the ConfigureProvider RPC.
+	if req.ProviderData == nil {
+		return
+	}
+
+	client, ok := req.ProviderData.(*Client)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Data Source Configure Type",
+			fmt.Sprintf("Expected *Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	d.client = client
 }
