@@ -108,7 +108,7 @@ func (p *DevOpsAPIProvider) Configure(ctx context.Context, req provider.Configur
 
 func (p *DevOpsAPIProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewExampleResource,
+		NewEngineerResource,
 	}
 }
 
