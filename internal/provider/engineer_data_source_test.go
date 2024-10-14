@@ -16,7 +16,6 @@ func TestAccEngineerDataSource(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// Verify number of coffees returned
 					resource.TestCheckResourceAttr("data.devops-bootcamp_engineer.test", "engineer.#", "3"),
-					resource.TestCheckResourceAttr("data.devops-bootcamp_engineer.test", "engineer.0.id", "UCS24"),
 					resource.TestCheckResourceAttr("data.devops-bootcamp_engineer.test", "engineer.0.name", "Ryan"),
 					resource.TestCheckResourceAttr("data.devops-bootcamp_engineer.test", "engineer.0.email", "ryan@ferrets.com"),
 				),

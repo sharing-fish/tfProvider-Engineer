@@ -41,8 +41,8 @@ resource "devops-bootcamp_engineer-resource" "test" {
 `,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// Verify updated attributes
-					resource.TestCheckResourceAttr("provider_engineer_engineer-resource.test", "name", "Jane Doe"),
-					resource.TestCheckResourceAttr("provider_engineer_engineer-resource.test", "email", "jane.doe@example.com"),
+					resource.TestCheckResourceAttr("devops-bootcamp_engineer-resource.test", "name", "Jane Doe"),
+					resource.TestCheckResourceAttr("devops-bootcamp_engineer-resource.test", "email", "jane.doe@example.com"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
