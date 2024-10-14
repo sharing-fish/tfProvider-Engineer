@@ -8,7 +8,6 @@ import (
 	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/function"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -19,7 +18,6 @@ import (
 
 // Ensure DevOpsAPIProvider satisfies various provider interfaces.
 var _ provider.Provider = &DevOpsAPIProvider{}
-var _ provider.ProviderWithFunctions = &DevOpsAPIProvider{}
 
 // DevOpsAPIProvider defines the provider implementation.
 type DevOpsAPIProvider struct {
@@ -116,12 +114,6 @@ func (p *DevOpsAPIProvider) Resources(ctx context.Context) []func() resource.Res
 func (p *DevOpsAPIProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewEngineerDataSource,
-	}
-}
-
-func (p *DevOpsAPIProvider) Functions(ctx context.Context) []func() function.Function {
-	return []func() function.Function{
-		NewExampleFunction,
 	}
 }
 
