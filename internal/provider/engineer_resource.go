@@ -45,7 +45,7 @@ func (r *EngineerResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				},
 			},
 			"email": schema.StringAttribute{
-				Required: true,
+				Optional: true,
 			},
 		},
 	}
