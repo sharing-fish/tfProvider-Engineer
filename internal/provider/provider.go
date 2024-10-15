@@ -107,6 +107,7 @@ func (p *DevOpsAPIProvider) Configure(ctx context.Context, req provider.Configur
 func (p *DevOpsAPIProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewEngineerResource,
+		//NewDevResource,
 	}
 }
 
@@ -114,6 +115,7 @@ func (p *DevOpsAPIProvider) Resources(ctx context.Context) []func() resource.Res
 func (p *DevOpsAPIProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewEngineerDataSource,
+		NewDevDataSource,
 	}
 }
 

@@ -34,6 +34,26 @@ func (c *Client) GetEngineers() ([]EngineerModel, error) {
 	return engineers, nil
 }
 
+func (c *Client) GetDevs() ([]DevModel, error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/dev", c.Endpoint), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := c.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	dev := []DevModel{}
+	err = json.Unmarshal(body, &dev)
+	if err != nil {
+		return nil, err
+	}
+
+	return dev, nil
+}
+
 func (c *Client) GetEngineerById(id string) (*EngineerModel, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/engineers/id/%s", c.Endpoint, id), nil)
 	if err != nil {
